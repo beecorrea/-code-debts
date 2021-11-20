@@ -1,28 +1,18 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 
 	"github.com/beecorrea/debt-checker/src/commentparser"
-	"github.com/beecorrea/debt-checker/src/utils/fileutils"
 )
 
 
 func main(){
-	path := "test1.txt"
+	path := "mocks/javascript.js"
 
-	f, err := fileutils.OpenFile(path)
+	parser := commentparser.NewParser(path)
 	
-	if err != nil {
-		log.Panicf("error opening file %v", err)
-	}
-
-	scanner := bufio.NewScanner(f)
-
-	parser := commentparser.NewParser(path, scanner)
-
 	comments := parser.GetCommentsFromFile()
 
 	if len(comments) == 0 {

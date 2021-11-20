@@ -20,9 +20,8 @@ func IsComment(line string) bool {
 
 func searchComment(line string) string{
 	lineArray := clearSpacesFromLine(line)
-	
-	if(IsComment(lineArray[0]) && lineArray[1] == DEBT){ 
-		return buildComment(lineArray[1:])
+	if cmtStart := hasComment(lineArray); cmtStart != -1{ 
+		return buildComment(lineArray[cmtStart:])
 	}
 	
 	return ""	
@@ -36,3 +35,12 @@ func clearSpacesFromLine(line string) []string{
 	return strings.Split(line, " ")
 }
 
+func hasComment(line []string) int{
+	for i, word := range line{
+		if word == COMMENT && line[i+1] == DEBT {
+			return i+1
+		}
+	}
+
+	return 0
+}

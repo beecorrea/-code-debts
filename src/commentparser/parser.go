@@ -2,6 +2,9 @@ package commentparser
 
 import (
 	"bufio"
+	"log"
+
+	"github.com/beecorrea/debt-checker/src/utils/fileutils"
 )
 
 type CommentParser struct {
@@ -9,10 +12,18 @@ type CommentParser struct {
 	Reader *bufio.Scanner
 }
 
-func NewParser(p string, r *bufio.Scanner) CommentParser{
+func NewParser(p string) CommentParser{
+	f, err := fileutils.OpenFile(p)
+	
+	if err != nil {
+		log.Panicf("error opening file %v", err)
+	}
+
+	scanner := bufio.NewScanner(f)
+	
 	return CommentParser{
 		Path: p,
-		Reader: r,
+		Reader: scanner,
 	}
 }
 
